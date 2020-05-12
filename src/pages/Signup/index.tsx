@@ -36,8 +36,6 @@ const Signup: React.FC = () =>  {
             formRef.current?.setErrors(errors);
         }
     }, []); 
-      
-    
     
     return (
         <Container>
@@ -46,7 +44,7 @@ const Signup: React.FC = () =>  {
         <Content>
             <img src={logoImg} alt="GoBarber" />
 
-            <Form ref={formRef} initialData={{ name: 'Daniel' }} onSubmit={handleSubmit}>
+            <Form ref={formRef} onSubmit={handleSubmit}>
                 <h1>Faça seu login</h1>
 
                 <Input name="name" icon={FiUser} placeholder="Nome" />
