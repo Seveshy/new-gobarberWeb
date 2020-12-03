@@ -3,7 +3,7 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { Link, useHistory } from 'react-router-dom';
 
-import api from '../../services/apiClients';
+import api from '../../services/api';
 
 import { useToast } from '../../hooks/toast';
 

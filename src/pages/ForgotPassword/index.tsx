@@ -1,15 +1,16 @@
-import React, { useRef, useCallback } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import React, { useRef, useCallback, useState } from 'react';
+import { FiLogIn, FiMail } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 import { Container, Background, Content, AnimationContainer } from './styles';
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import { useAuth } from '../../hooks/auth';
+import api from '../../services/api'
+
 import { useToast } from '../../hooks/toast';
 
 import logoImg from '../../assets/logo.svg';
@@ -17,37 +18,45 @@ import logoImg from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-interface SignInFormData {
+
+interface ForgotPasswordFormData {
     email: string;
-    password: string;
 }
 
 
-const SignIn: React.FC = () =>  {
+const ForgotPassword: React.FC = () =>  {
+    const [loading, setLoading] = useState(false);
     const formRef = useRef<FormHandles>(null);
 
-    const { signIn } = useAuth();
     const { addToast } = useToast();
-    const history = useHistory();
 
-    const handleSubmit = useCallback( async (data: SignInFormData) => {
+    const handleSubmit = useCallback( async (data: ForgotPasswordFormData) => {
         try {
             formRef.current?.setErrors({});
 
+            setLoading(true);
+
             const schema = Yup.object().shape({
-                email: Yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
-                password: Yup.string().required('Senha obrigatória'),
+                email: Yup.string().required('E-mail obrigatório')
+                .email('Digite um e-mail válido'),
             });
 
             await schema.validate(data, {
                 abortEarly: false,
             });
-            await signIn({
-                email: data.email,
-                password: data.password
-            });
 
-            history.push('/dashboard');
+            await api.post('/forgot-password', {
+                email: data.email
+            })
+
+            addToast({
+                type: 'success',
+                title: 'E-mail de recuperação de senha enviado',
+                description: 'Enviamos um e-mail de recuperação de senha, cheque sua caixa de entrada',
+            });
+            
+
+           // history.push('/dashboard');
         } catch (err) {
             if (err instanceof Yup.ValidationError) {
                 const errors = getValidationErrors(err);
@@ -59,11 +68,13 @@ const SignIn: React.FC = () =>  {
 
             addToast({
                 type: 'error',
-                title: 'Erro na autenticação',
-                description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
+                title: 'Erro na recuperação de senha',
+                description: 'Ocorreu um erro ao realizar a recuperação de senha.',
             });
+        } finally {
+            setLoading(false);
         }
-    }, [signIn, addToast, history]);
+    }, [addToast]);
 
     return (
     <Container>
@@ -73,19 +84,17 @@ const SignIn: React.FC = () =>  {
                 <img src={logoImg} alt="GoBarber" />
 
                 <Form ref={formRef} onSubmit={handleSubmit}>
-                    <h1>Faça seu logon</h1>
+                    <h1>Recuperar senha</h1>
 
                     <Input name="email" icon={FiMail} placeholder="E-mail" />
-                    <Input name="password" icon={FiLock} type="password" placeholder="Senha" />
 
-                    <Button type="submit">Entrar</Button>
+                    <Button loading={loading} type="submit">Recuperar</Button>
                 
-                    <Link to="/forgot-password">Esqueci minha senha</Link>
                 </Form>
 
-                    <Link to="/signup">
+                    <Link to="/">
                         <FiLogIn />
-                        Criar conta
+                        Voltar ao login
                     </Link>    
             </AnimationContainer>
                 
@@ -95,4 +104,4 @@ const SignIn: React.FC = () =>  {
     </Container>
 )}
 
-export default SignIn;
+export default ForgotPassword;
