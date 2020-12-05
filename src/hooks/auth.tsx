@@ -1,9 +1,15 @@
 import React, { createContext, useCallback, useState, useContext } from "react";
 import api from '../services/api';
 
+interface User {
+    id: string;
+    avatar_url: string; 
+    name: string;
+}
+
 interface AuthState {
     token: string;
-    user: object;
+    user: User;
 }
 
 interface SignCredentials {
@@ -12,15 +18,12 @@ interface SignCredentials {
 }
 
 interface AuthContextData {
-    user: object;
+    user: User;
     signIn(credentials: SignCredentials): Promise<void>;
     signOut(): void;
-
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
-
-
 
 export const AuthProvider: React.FC = ({ children }) => {
     const [data, setData] = useState<AuthState>(() => {
@@ -41,6 +44,8 @@ export const AuthProvider: React.FC = ({ children }) => {
         });
 
         const { token, user } = response.data;
+
+        console.log(data)
 
         localStorage.setItem('@Gobarber:token', token);
         localStorage.setItem('@Gobarber:user', JSON.stringify(user));
