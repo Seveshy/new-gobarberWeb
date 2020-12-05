@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { FiClock, FiPower } from 'react-icons/fi';
 
@@ -10,7 +10,9 @@ import {
     Content,
     Schedule,
     Calendar,
-    NextAppointment
+    NextAppointment,
+    Appointment,
+    Section
 
 } from './styles';
 
@@ -18,7 +20,10 @@ import logoImg from '../../assets/logo.svg';
 import { useAuth } from '../../hooks/auth';
 
 const Dashboard: React.FC = () => {
+    const [selectDate, setSelectDate] = useState(new Date());
+
     const { signOut, user } = useAuth();
+
     return (
     <Container>
         <Header>
@@ -56,6 +61,50 @@ const Dashboard: React.FC = () => {
                         </span>
                     </div>
                 </NextAppointment>
+                <Section>
+                    <strong>Manhã</strong>
+                    <Appointment>
+                        <span>
+                            <FiClock />
+                            08:00
+                        </span>
+
+                        <div>
+                            <img src="https://danielmajor.com.br/static/2a790485413811e589bbbb3b87753a35/245c4/daniel.jpg" alt="Daniel Major" />
+
+                            <strong>Daniel Major</strong> 
+                        </div>
+                    </Appointment>
+
+                    <strong>Manhã</strong>
+                    <Appointment>
+                        <span>
+                            <FiClock />
+                            08:00
+                        </span>
+
+                        <div>
+                            <img src="https://danielmajor.com.br/static/2a790485413811e589bbbb3b87753a35/245c4/daniel.jpg" alt="Daniel Major" />
+
+                            <strong>Daniel Major</strong> 
+                        </div>
+                    </Appointment>
+                </Section>
+                <Section>
+                <strong>Tarde</strong>
+                    <Appointment>
+                        <span>
+                            <FiClock />
+                            08:00
+                        </span>
+
+                        <div>
+                            <img src="https://danielmajor.com.br/static/2a790485413811e589bbbb3b87753a35/245c4/daniel.jpg" alt="Daniel Major" />
+
+                            <strong>Daniel Major</strong> 
+                        </div>
+                    </Appointment>
+                </Section>
                 <Calendar>
 
                 </Calendar>
