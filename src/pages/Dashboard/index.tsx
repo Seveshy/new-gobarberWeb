@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { FiPower } from 'react-icons/fi';
+import { FiClock, FiPower } from 'react-icons/fi';
 
-import { Container, Header, HeaderContent, Profile } from './styles';
+import { 
+    Container, 
+    Header, 
+    HeaderContent, 
+    Profile,
+    Content,
+    Schedule,
+    Calendar,
+    NextAppointment,
+    Appointment,
+    Section
+
+} from './styles';
 
 import logoImg from '../../assets/logo.svg';
 import { useAuth } from '../../hooks/auth';
 
 const Dashboard: React.FC = () => {
+    const [selectDate, setSelectDate] = useState(new Date());
+
     const { signOut, user } = useAuth();
+
     return (
     <Container>
         <Header>
@@ -26,6 +41,75 @@ const Dashboard: React.FC = () => {
                 </button>
             </HeaderContent>
         </Header>
+        <Content>
+            <Schedule>
+                <h1>Horários agendados</h1>
+                <p>
+                    <span>Hoje</span>
+                    <span>Dia 06</span>
+                    <span>Segunda feira</span>
+                </p>
+                <NextAppointment>
+                    <strong>Atendimento a seguir</strong>
+                    <div>
+                        <img src="https://danielmajor.com.br/static/2a790485413811e589bbbb3b87753a35/245c4/daniel.jpg" alt="Daniel Major" />
+
+                        <strong>Daniel Major</strong>
+                        <span>
+                            <FiClock />
+                            08:00
+                        </span>
+                    </div>
+                </NextAppointment>
+                <Section>
+                    <strong>Manhã</strong>
+                    <Appointment>
+                        <span>
+                            <FiClock />
+                            08:00
+                        </span>
+
+                        <div>
+                            <img src="https://danielmajor.com.br/static/2a790485413811e589bbbb3b87753a35/245c4/daniel.jpg" alt="Daniel Major" />
+
+                            <strong>Daniel Major</strong> 
+                        </div>
+                    </Appointment>
+
+                    <strong>Manhã</strong>
+                    <Appointment>
+                        <span>
+                            <FiClock />
+                            08:00
+                        </span>
+
+                        <div>
+                            <img src="https://danielmajor.com.br/static/2a790485413811e589bbbb3b87753a35/245c4/daniel.jpg" alt="Daniel Major" />
+
+                            <strong>Daniel Major</strong> 
+                        </div>
+                    </Appointment>
+                </Section>
+                <Section>
+                <strong>Tarde</strong>
+                    <Appointment>
+                        <span>
+                            <FiClock />
+                            08:00
+                        </span>
+
+                        <div>
+                            <img src="https://danielmajor.com.br/static/2a790485413811e589bbbb3b87753a35/245c4/daniel.jpg" alt="Daniel Major" />
+
+                            <strong>Daniel Major</strong> 
+                        </div>
+                    </Appointment>
+                </Section>
+                <Calendar>
+
+                </Calendar>
+            </Schedule>
+        </Content>
     </Container>
     )
 }
