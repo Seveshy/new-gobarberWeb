@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { shade } from 'polished';
 
+
 export const Container = styled.div``;
 export const Header = styled.header`
     padding: 14px 0;
@@ -48,6 +49,15 @@ export const Profile = styled.div`
 
         span {
             color: #f4ede8;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ff9000;
+
+            &:hover {
+                opacity: 0.8;
+            }
         }
 
         strong {
